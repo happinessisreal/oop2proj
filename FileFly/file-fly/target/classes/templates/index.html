@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>FileFly - File Sharing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            display: flex;
+            gap: 40px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .qr-code {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>FileFly - LAN File Sharing</h1>
+
+    <div class="container">
+        <div class="section">
+            <h2>Upload File</h2>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <input type="file" name="file" />
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Available Files</h2>
+            <ul>
+                <li th:each="file : ${files}">
+                    <a th:href="@{/files/{filename}(filename=${file.fileName})}" th:text="${file.fileName}"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section qr-code">
+            <h2>Connect from Phone</h2>
+            <p>Scan this QR code with your phone to connect.</p>
+            <img th:src="${qrCode}" alt="QR Code" />
+        </div>
+
+        <div class="section">
+            <h2>Connect from PC</h2>
+            <p>Use this address to connect from another PC on the same network:</p>
+            <p><a th:href="${accessUrl}" th:text="${accessUrl}"></a></p>
+        </div>
+    </div>
+</body>
+</html>
